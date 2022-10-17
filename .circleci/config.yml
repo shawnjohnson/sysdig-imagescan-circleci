@@ -21,8 +21,8 @@ jobs:
       - run:
           name: "Build docker image"
           command: |
-          echo ${TAG}
-          docker build -t node-hello-world:${TAG} .
+            echo ${TAG}
+            docker build -t node-hello-world:${TAG} .
           
 
       - run: |
