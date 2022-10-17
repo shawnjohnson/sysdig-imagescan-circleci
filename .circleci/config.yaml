@@ -1,0 +1,13 @@
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2022.09
+
+    working_directory: /mnt/ramdisk
+
+    steps:
+      - run: |
+          echo 'Donwloading most recent Sysdig CLI scanner'
+          curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+          chmod +x ./sysdig-cli-scanner
+      - run: ./sysdig-cli-scanner --apiurl $SYSDIG_SECURE_API node:14
