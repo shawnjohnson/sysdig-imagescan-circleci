@@ -25,20 +25,15 @@ jobs:
       - run:
           name: "Build docker image"
           command: |
-            echo ${TAG}
             docker build -t node-hello-world:${TAG} .
 
-      - run: |
-          env
-          docker images list
-          docker --tlsverify -H=$DOCKER_HOST --tlscacert=$DOCKER_CERT_PATH/ca.pem --tlscert=$DOCKER_CERT_PATH/cert.pem --tlskey=$DOCKER_CERT_PATH/key.pem images list 
-
-
-      - run: |
-          echo 'Donwloading most recent Sysdig CLI scanner'
+      - run: 
+          name: "Download Sysdig CLI scanner" 
+          command: |
+          echo 'Downloading most recent Sysdig CLI scanner'
           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
           chmod +x ./sysdig-cli-scanner
-      - run: echo 'DOCKER_HOST = $DOCKER_HOST'
+          
       - run:
           name: "Scan image with Sysdig CLI scanner"
           command: ./sysdig-cli-scanner --console-log --apiurl $SYSDIG_SECURE_API docker://node-hello-world:${TAG}
