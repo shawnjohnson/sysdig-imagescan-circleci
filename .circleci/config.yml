@@ -6,8 +6,18 @@ jobs:
     working_directory: /mnt/ramdisk
 
     steps:
+      - checkout
+
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker build -t node-hello-world:$TAG .
+
       - run: |
           echo 'Donwloading most recent Sysdig CLI scanner'
           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
           chmod +x ./sysdig-cli-scanner
-      - run: ./sysdig-cli-scanner --apiurl $SYSDIG_SECURE_API node:14
+      - run: ./sysdig-cli-scanner --apiurl $SYSDIG_SECURE_API node-hello-world:$TAG
