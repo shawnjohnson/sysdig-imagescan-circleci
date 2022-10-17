@@ -16,5 +16,5 @@ jobs:
           echo 'Donwloading most recent Sysdig CLI scanner'
           curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
           chmod +x ./sysdig-cli-scanner
-      - run: echo "DOCKER_HOST: $DOCKER_HOST"
+      - run: echo 'DOCKER_HOST: $DOCKER_HOST'
       - run: ./sysdig-cli-scanner --console-log --apiurl $SYSDIG_SECURE_API docker://node-hello-world:$TAG
