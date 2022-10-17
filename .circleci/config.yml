@@ -20,6 +20,7 @@ jobs:
           docker build -t node-hello-world:$TAG .
 
       - run: |
+          env
           docker images list
           docker --tlsverify -H=$DOCKER_HOST --tlscacert=$DOCKER_CERT_PATH/ca.pem --tlscert=$DOCKER_CERT_PATH/cert.pem --tlskey=$DOCKER_CERT_PATH/key.pem images list 
 
